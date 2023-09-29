@@ -4,10 +4,20 @@
  */
 package repo;
 
+import java.util.ArrayList;
+import model.Country;
+
 /**
  *
  * @author GoldCandy
  */
 public interface ICountry {
-    
+
+    public void addCountryInformation(ArrayList<Country> countries);
+
+    public void displayAscendingOrder(ArrayList<Country> countries);
+
+    public void recentDisplay();
+
+    public void search(ArrayList<Country> countries);
 }

@@ -8,26 +8,31 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import model.Country;
+import repo.ICountry;
 
 /**
  *
  * @author GoldCandy
  */
-public class Algorithm implements Comparator<Country>{
+public class Algorithm implements Comparator<Country>, ICountry {
+
     protected Validation valid = new Validation();
     protected Country currentCountry = new Country();
-    
-    public boolean checkExistCode(ArrayList<Country> countries, String code){
-        for(Country country: countries){
-            if(country.getCountryCode().equals(code)) return true;
+
+    public boolean checkExistCode(ArrayList<Country> countries, String code) {
+        for (Country country : countries) {
+            if (country.getCountryCode().equals(code)) {
+                return true;
+            }
         }
         return false;
     }
-    
-    public void addCountryInformation(ArrayList<Country> countries){
+
+    @Override
+    public void addCountryInformation(ArrayList<Country> countries) {
         Country country = new Country();
         String code = valid.inputString("Enter code of country");
-        if (checkExistCode(countries, code)){
+        if (checkExistCode(countries, code)) {
             System.out.println("Code already exist!");
             return;
         }
@@ -38,48 +43,51 @@ public class Algorithm implements Comparator<Country>{
         countries.add(country);
         this.currentCountry = country;
     }
-    
-    public void recentDisplay(){
-        if(currentCountry.getCountryTerrain().isEmpty()){
+
+    @Override
+    public void recentDisplay() {
+        if (currentCountry.getCountryTerrain().isEmpty()) {
             System.out.println("There is no country yet!");
             return;
         }
-        System.out.printf("%s%20s%20s%20s\n", "ID", "Name", 
-                                    "Total Area", "Terrain");
+        System.out.printf("%s%20s%20s%20s\n", "ID", "Name",
+                "Total Area", "Terrain");
         currentCountry.display();
     }
-    
-    public void displayAscendingOrder(ArrayList<Country> countries){
-        if(countries.isEmpty()){
+
+    @Override
+    public void displayAscendingOrder(ArrayList<Country> countries) {
+        if (countries.isEmpty()) {
             System.out.println("There is no country yet!");
             return;
         }
         Algorithm algorithm = new Algorithm();
         Collections.sort(countries, algorithm);
-        System.out.printf("%s%20s%20s%20s\n", "ID", "Name", 
-                                    "Total Area", "Terrain");
-        for(Country country: countries){
+        System.out.printf("%s%20s%20s%20s\n", "ID", "Name",
+                "Total Area", "Terrain");
+        for (Country country : countries) {
             country.display();
         }
     }
-    
-    public void search(ArrayList<Country> countries){
+
+    @Override
+    public void search(ArrayList<Country> countries) {
         int count = 0;
-        if(countries.isEmpty()){
+        if (countries.isEmpty()) {
             System.out.println("There is no country yet!");
             return;
         }
-        
+
         String strMatch = valid.inputString("Enter the name you want to search for");
-        System.out.printf("%s%20s%20s%20s\n", "ID", "Name", 
-                                    "Total Area", "Terrain");
-        for(Country country: countries){
-            if(country.getCountryName().toLowerCase().contains(strMatch.toLowerCase())){
+        System.out.printf("%s%20s%20s%20s\n", "ID", "Name",
+                "Total Area", "Terrain");
+        for (Country country : countries) {
+            if (country.getCountryName().toLowerCase().contains(strMatch.toLowerCase())) {
                 country.display();
                 count++;
             }
         }
-        if(count == 0){
+        if (count == 0) {
             System.out.println("Not found!");
         }
     }
